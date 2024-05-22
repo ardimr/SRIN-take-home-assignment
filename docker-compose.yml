@@ -1,0 +1,14 @@
+services:
+  grpc-server:
+    image: ardimr/grpc-hello-world:dev
+    container_name: grpc-hello-world
+  
+    ports:
+      - 8080:8080
+    networks:
+      - grpc-hello-world-network
+    restart: always
+  
+networks:
+  grpc-hello-world-network:
+    driver: bridge
