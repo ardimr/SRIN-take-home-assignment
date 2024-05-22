@@ -32,3 +32,4 @@ C:\Users\rizka\Documents\Personal\SRIN-take-home-assignment\GrpcHelloWorld\obj\D
 C:\Users\rizka\Documents\Personal\SRIN-take-home-assignment\GrpcHelloWorld\obj\Debug\net8.0\GrpcHelloWorld.pdb
 C:\Users\rizka\Documents\Personal\SRIN-take-home-assignment\GrpcHelloWorld\obj\Debug\net8.0\GrpcHelloWorld.genruntimeconfig.cache
 C:\Users\rizka\Documents\Personal\SRIN-take-home-assignment\GrpcHelloWorld\obj\Debug\net8.0\ref\GrpcHelloWorld.dll
+C:\Users\rizka\Documents\Personal\SRIN-take-home-assignment\GrpcHelloWorld\obj\Debug\net8.0\GrpcHelloWorld.sourcelink.json
