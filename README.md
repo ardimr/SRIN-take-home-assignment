@@ -67,7 +67,6 @@
 
 * [![.NET][.NET]][.NET-url] 
 * [![C#][C#]][C#-url]
-* [![Redis][Redis]][Redis-url]
 * [![Docker][Docker]][Docker-url]
 
 <p align="right">(<a href="#about-the-project">back to top</a>)</p>
@@ -82,9 +81,18 @@
 * Minikube
 
 ### Clone the repo
-  ```sh
-  git clone https://github.com/ardimr/SRIN-take-home-test
-  ```
+  1. Run the following command
+      ```sh
+      git clone https://github.com/ardimr/SRIN-take-home-test
+      ```
+
+### Build the docker image (Optional)
+  1. Run the following command
+      ```sh
+      docker build -t ardimr/grpc-hello-world:$(TAG) .
+      ```
+      **NB: specify the tag accordingly
+
 ### Local Development
   1. Run the program
       ```sh
