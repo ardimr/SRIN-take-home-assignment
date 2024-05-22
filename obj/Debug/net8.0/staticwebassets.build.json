@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "ew6P2kKq3fwsg0QWkycNUa//QFdF+BtSKMUq58whRrE=",
+  "Source": "GrpcHelloWorld",
+  "BasePath": "_content/GrpcHelloWorld",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
