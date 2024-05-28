@@ -78,6 +78,7 @@
 ### Prerequisites
 * .NET 8.0 SDK
 * Docker
+* Kubectl
 * Minikube
 
 ### Clone the repo
@@ -150,6 +151,9 @@
 <details>
   <summary>Call gRPC request using grpcurl</summary>
 
+  ```bash
+    grpcurl -plaintext -import-path Protos/ -proto greet.proto  127.0.0.1:8888 greet.Greeter/SayHelloWorld
+  ```
 </details>
 
 <!-- _For more examples, please refer to the [Documentation](api/openapi:%20'3.0.yml)_ -->
@@ -163,13 +167,11 @@
 
 - [x] Implemented a simple gRPC Server that return Hello World
 - [x] Add Dockerfile
-- [x] Upload image to docker repository
+- [x] Push image to docker repository
 - [x] Run container using docker-compose.yml
-- [ ] Deploy app in Kubernetes
-- [ ] Deploy app in EKS
+- [x] Deploy app in Kubernetes
+- [x] Deploy app in EKS
 
-
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#about-the-project">back to top</a>)</p>
 
