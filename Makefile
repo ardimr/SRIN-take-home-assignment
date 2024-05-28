@@ -28,4 +28,4 @@ delete-ingress:
 	kubectl delete -f ingress.yaml
 
 grpc-client:
-	grpcurl -plaintext -import-path Protos/ -proto greet.proto -d '{"name": "ardi"}' grpc.srin.local:80 greet.Greeter/SayHelloWorld
+	grpcurl -plaintext -import-path Protos/ -proto greet.proto -d '{"name": "ardi"}' af2c10f64eeda42348fbd95dd98ad8d8-1643405534.ap-southeast-3.elb.amazonaws.com:80 greet.Greeter/SayHelloWorld
