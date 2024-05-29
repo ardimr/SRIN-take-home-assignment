@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: backend-service
   namespace: development
+
 spec:
   selector:
     app: backend
@@ -10,3 +11,4 @@ spec:
     - protocol: TCP
       port: 8888
       targetPort: 8080
+  type: LoadBalancer

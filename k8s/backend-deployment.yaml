@@ -23,5 +23,8 @@ spec:
         image: 616247551677.dkr.ecr.ap-southeast-3.amazonaws.com/grpc-hello-world:dev
         ports:
         - containerPort: 8080
+        imagePullPolicy: Always
+  
+
 
 
