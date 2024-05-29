@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: grpc-hello-world
-        image: 616247551677.dkr.ecr.ap-southeast-3.amazonaws.com/grpc-hello-world
+        image: 616247551677.dkr.ecr.ap-southeast-3.amazonaws.com/grpc-hello-world:dev
         ports:
         - containerPort: 8080
         imagePullPolicy: Always
@@ -44,12 +44,13 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    alb.ingress.kubernetes.io/subnets: subnet-044888367fdde3ab0,subnet-0ddf48ee197d61e53
+    alb.ingress.kubernetes.io/subnets: subnet-0eb7d5ae19b09c537,subnet-0fe1ec9f930e2363f
     alb.ingress.kubernetes.io/backend-protocol-version: GRPC
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
-    alb.ingress.kubernetes.io/scheme: internal
+    # alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80},{"HTTPS": 443}]'
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+    alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
-    # alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-southeast-3:616247551677:certificate/46b75628-22f0-4633-a6b9-35b8a3aef189
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-southeast-3:616247551677:certificate/afd765d3-c41e-4829-a333-ac55d4345353
   labels:
     app: backend-ingress
     environment: dev
