@@ -1,3 +1,4 @@
+using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using GrpcHelloWorld;
 
@@ -11,11 +12,11 @@ public class GreeterService : Greeter.GreeterBase
         _logger = logger;
     }
 
-    public override Task<HelloWorldReply> SayHelloWorld(HelloWorldRequest request, ServerCallContext context)
+    public override Task<HelloWorldReply> SayHelloWorld(Empty request, ServerCallContext context)
     {
         return Task.FromResult(new HelloWorldReply
         {
-            Message = "Hello " + request.Name
+            Message = "Hello, World!"
         });
     }
 }
