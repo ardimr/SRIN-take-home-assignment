@@ -12,20 +12,20 @@ docker-push:
 	docker image push ardimr/grpc-hello-world:$(TAG)
 # docker container run -p 8080:8080 --rm --name grpc-hello-world ardimr/grpc-hello-world:dev
 
-create-replica-set:
-	kubectl apply -f backend-replica-set.yaml
-delete-replica-set:
-	kubectl delete -f backend-replica-set.yaml
+create-deployment:
+	kubectl apply -f k8s/deployment.yaml
+delete-deployment:
+	kubectl delete -f k8s/deployment.yaml
 
-create-load-balancer:
-	kubectl apply -f backend-load-balancer.yaml
-delete-load-balancer:
-	kubectl delete -f backend-load-balancer.yaml
+create-service:
+	kubectl apply -f k8s/service.yaml
+delete-service:
+	kubectl delete -f k8s/service.yaml
 
 create-ingress:
-	kubectl apply -f ingress.yaml
+	kubectl apply -f k8s/ingress.yaml
 delete-ingress:
-	kubectl delete -f ingress.yaml
+	kubectl delete -f k8s/ingress.yaml
 
 grpc-client:
 	grpcurl -plaintext -import-path Protos/ -proto greet.proto a63a498f42b164e2d913fcbdbfc79307-1261931033.ap-southeast-3.elb.amazonaws.com:8888 greet.Greeter/SayHelloWorld
