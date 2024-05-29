@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend
-  namespace: development
+  namespace: local
   labels:
     app: backend
     tier: backend
@@ -20,10 +20,10 @@ spec:
     spec:
       containers:
       - name: grpc-hello-world
-        image: 616247551677.dkr.ecr.ap-southeast-3.amazonaws.com/grpc-hello-world:dev
+        image: ardimr/grpc-hello-world:dev
         ports:
         - containerPort: 8080
-        imagePullPolicy: Always
+        # imagePullPolicy: Always
   
 
 
