@@ -185,7 +185,7 @@
 - Run the container using Docker compose
 
 #### **Build Docker Image**
-
+---
   1. **Create the Dockerfile**
       
       ```docker
@@ -218,8 +218,8 @@
       ```
 
       This command build an image with a specific name and tag `ardimr/grpc-hello-world:dev` using the Dockerfile in the project directory.
----          
 #### **Push Docker Image**
+---          
 
   Once the docker image can be run properly, push the image to a container registry
   
@@ -229,8 +229,8 @@
   ```
   This command push the `ardimr/grpc-hello-world:dev` to my docker hub. This is the default configuration. In the `AWS` section, I pushed the image to my `AWS ECR`.
     
----
 #### **Run with Docker**
+---
     
   1. **Run the container**
       ```bash
@@ -246,8 +246,8 @@
         
       ![Untitled](AWS%20Deployment%201233135429644f8392737f7497d02fdd/Untitled%204.png)
 
----
 #### **Run with Docker Compose**
+---
   1. `docker-compose.yml`
       
       ```yaml
@@ -301,6 +301,7 @@
 - Access the deployed App using tools like grpcurl
 
 #### Setup the cluster
+---
   Minikube is used as the local Kubernetes cluster.
   
   ```bash
@@ -314,13 +315,15 @@
   ![Untitled](AWS%20Deployment%201233135429644f8392737f7497d02fdd/Untitled%208.png)
     
 #### Create namespace
+---
   ```bash
   kubectl create namespace local
   ```
   
   ![Untitled](AWS%20Deployment%201233135429644f8392737f7497d02fdd/Untitled%209.png)
----    
+
 #### Create Deployment
+---    
   1. `deployment.yaml`
       
       ```yaml
@@ -381,16 +384,16 @@
       
   
   <aside>
-  📢 **Delete the deployment**
+  ⚠️ **Delete the deployment**
   
   ```bash
   kubectl delete -f deployment.yaml
   ```
-  
+  This is the command to delete the deployment.
   </aside>
 
----  
 #### **Create Service**
+---  
   1. `service.yaml`
       
       ```yaml
@@ -454,16 +457,16 @@
           
   
   <aside>
-  📢 **Delete the service**
+  ⚠️ **Delete the service**
   
   ```bash
   kubectl delete -f service.yaml
   ```
-  
+  This is the command to delete the service.
   </aside>
 
----  
 #### **Create Ingress**
+---  
     
   Even though using service type load balancer works properly, I try to employ `Ingress Nginx` to manage the traffic to the service. To implement this resource, I need to modify the service type from `Load Balancer` to `ClusterIP` .
   
@@ -555,16 +558,16 @@
           
   
   <aside>
-  📢 **Delete the ingress**
+  ⚠️ Delete the ingress
   
   ```bash
   kubectl delete -f ingress.yaml
   ```
-  
+  This the command to delete the Ingress.
   </aside>
     
 #### List used resources
-    
+---   
   ```bash
   kubectl get all -n local
   ```
@@ -573,7 +576,7 @@
     
 
 ### AWS
-
+---
 ![Untitled](AWS%20Deployment%201233135429644f8392737f7497d02fdd/Untitled%2024.png)
 
 The diagram above illustrates the architecture for deploying the gRPC server pods using `Amazon EKS` within a Virtual Private Cloud (VPC) in the `ap-southeast-3` region. Here’s the detailed components breakdown:
@@ -606,6 +609,7 @@ aws sts get-caller-identity
 The steps to implement the architecture is described as follows:
 
 #### **Setup VPC**
+---
   1. **Create a new VPC**
       
       Create a new VPC with CIDR block **`10.0.0.0/24`**. The CIDR block represents a range of IP addresses from **`10.0.0.0`** to **`10.0.0.255`**. Hence, the VPC will have 256 available IP addresses.
@@ -779,6 +783,7 @@ The steps to implement the architecture is described as follows:
       ![Untitled](AWS%20Deployment%201233135429644f8392737f7497d02fdd/Untitled%2042.png)
         
 #### **Setup AWS EKS Cluster**
+---
   1. **Create a cluster IAM role and attach the required Amazon EKS IAM managed policy to it.**
       1. **Create a Role**
           
@@ -820,7 +825,7 @@ The steps to implement the architecture is described as follows:
       ![Untitled](AWS%20Deployment%201233135429644f8392737f7497d02fdd/Untitled%2046.png)
         
 #### **Connect to the cluster**
-  
+---
   To connect the local computer with the created cluster, I need to update the my Kubernetes config by running this command:
   
   ```bash
@@ -857,7 +862,7 @@ The steps to implement the architecture is described as follows:
   </aside>
     
 #### **Create Nodes**
-    
+---    
   There are two options to create Nodes, using `Fargate` or `Managed Nodes` . I tried to use the Fargate but fails during the provisioning. Then, I proceed to use `EC2` instances as the `managed nodes` and it works as expected. The implementation steps is described as follows:
   
   <details><summary>Using Fargate</summary>
@@ -995,8 +1000,8 @@ The steps to implement the architecture is described as follows:
   </details>       
 
 #### **Setup ALB**
-    
-  In this setup, I tried to use `AWS Load Balancers` to subsitute the `ingress Nginx`
+---    
+  In this setup, I tried to use `AWS Load Balancers` to subsitute the `ingress Nginx` to manage the traffic to the services.
   
   1. Create an IAM OIDC Identity Provider for the cluster
       
@@ -1057,16 +1062,17 @@ The steps to implement the architecture is described as follows:
       
       ![Untitled](AWS%20Deployment%201233135429644f8392737f7497d02fdd/Untitled%2057.png)
       
-      <aside>
-      ⚠️ Remove ALB from the cluster
-      
-      ```bash
-      helm delete aws-load-balancer-controller -n kube-system
-      ```
-      
-      </aside>
+  <aside>
+  ⚠️ Remove ALB from the cluster
+
+  ```bash
+  helm delete aws-load-balancer-controller -n kube-system
+  ```
+  This is the command used to remove the ALB from the cluster.
+  </aside>
         
 #### **Deploy Application**
+---
   1. **Docker Image Setup**
       1. Create a new `ECR` repository
           
@@ -1091,6 +1097,83 @@ The steps to implement the architecture is described as follows:
       ```
       
       ![Untitled](AWS%20Deployment%201233135429644f8392737f7497d02fdd/Untitled%2059.png)
+
+  4. `eks-grpcserver.yaml`
+      ```yaml
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: backend
+        namespace: development
+        labels:
+          app: backend
+          tier: backend
+      spec:
+        replicas: 2
+        selector:
+          matchLabels:
+            app: backend
+            tier: backend
+        template:
+          metadata:
+            labels:
+              app: backend
+              tier: backend
+          spec:
+            containers:
+            - name: grpc-hello-world
+              image: 616247551677.dkr.ecr.ap-southeast-3.amazonaws.com/grpc-hello-world:dev
+              ports:
+              - containerPort: 8080
+              imagePullPolicy: Always
+      ---
+      apiVersion: v1
+      kind: Service
+      metadata:
+        name: backend-service
+        namespace: development
+
+      spec:
+        selector:
+          app: backend
+        ports:
+          - protocol: TCP
+            port: 8888
+            targetPort: 8080
+        type: ClusterIP
+      ---
+      apiVersion: networking.k8s.io/v1
+      kind: Ingress
+      metadata:
+        annotations:
+          alb.ingress.kubernetes.io/subnets: subnet-0eb7d5ae19b09c537,subnet-0fe1ec9f930e2363f
+          alb.ingress.kubernetes.io/backend-protocol-version: GRPC
+          # alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80},{"HTTPS": 443}]'
+          alb.ingress.kubernetes.io/ssl-redirect: '443'
+          alb.ingress.kubernetes.io/scheme: internet-facing
+          alb.ingress.kubernetes.io/target-type: ip
+          alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-southeast-3:616247551677:certificate/afd765d3-c41e-4829-a333-ac55d4345353
+        labels:
+          app: backend-ingress
+          environment: dev
+        name: backend-ingress
+        namespace: development
+      spec:
+        ingressClassName: alb
+        rules:
+        - http:
+            paths:
+            - path: /
+              pathType: Prefix
+              backend:
+                service:
+                  name: backend-service
+                  port:
+                    number: 8888
+
+      ```
+      The deployment pods and services manifests are similar to the local configuration in the `local` kubernets section. I just modified the `namespace` to `development`.
+      For the Ingress one, I used `AWS Load Balancers` to subtitute the Nginx Ingress. To implement this, I created `self-signed-certificate` using `openssl` and import it to the `ACM` since using `AWS Load Balancers` for gRPC traffic requires a secure connection.
       
   3. **Deploy the applications**
       
@@ -1099,6 +1182,7 @@ The steps to implement the architecture is described as follows:
       ```
         
 #### **List Resources**
+---
   1. All deployment
       
       ```bash
@@ -1107,7 +1191,17 @@ The steps to implement the architecture is described as follows:
       
       ![Untitled](AWS%20Deployment%201233135429644f8392737f7497d02fdd/Untitled%2060.png)
       
-  2. Pods
+  2. Ingress
+      
+      ```bash
+      kubectl get ingress -n development
+      ```
+      
+      ![Untitled](AWS%20Deployment%201233135429644f8392737f7497d02fdd/Untitled%2063.png)
+
+      As we can see here, the Ingress is deployed successfully and provided an External-IP. Unfortunately, the External-IP is not accessible. Initially, I tried to resolve the DNS using `nslookup` but it failed. The DNS is not accessible. Then, I tried to add inbound rules to the associated `security group` and the DNS can be resolved as shown on the Load balancers section below. However, when trying to send gRPC request using both `grpcurl` and `Postman`, It shows `context-deadline-exceeded` error. That means, the traffic can't reach the services. I tried to updated the inbound rules to allow grpc traffic for port `0-65535` but still couldn't solve the error. Unfortunately, my budget for the AWS operational has reached my limit so I couldn't proceed to solve the error in time. If possible, I'd really appreciate if you can give me a hint on how to solve this problem.
+
+  3. Pods
       
       ```bash
       kubectl get pod -n development
@@ -1115,21 +1209,16 @@ The steps to implement the architecture is described as follows:
       
       ![Untitled](AWS%20Deployment%201233135429644f8392737f7497d02fdd/Untitled%2061.png)
       
-  3. Services
+  4. Services
       
       ```bash
       kubectl get svc -n development
       ```
       
       ![Untitled](AWS%20Deployment%201233135429644f8392737f7497d02fdd/Untitled%2062.png)
+
+      Because the `AWS Load Balancers` couldn't perform as expected, I decided to use the Service type `LoadBalancer` to route the traffic. By using this service type, a `Classic load balacner` is employed instead of `AWS Load Balancers`. The external-IP provided for this service is used to access the services. The result is shown on the "test the deployed application section" below.
       
-  4. Ingress
-      
-      ```bash
-      kubectl get ingress -n development
-      ```
-      
-      ![Untitled](AWS%20Deployment%201233135429644f8392737f7497d02fdd/Untitled%2063.png)
       
   5. AWS load Balancer Controller
       
@@ -1146,6 +1235,8 @@ The steps to implement the architecture is described as follows:
       ![Untitled](AWS%20Deployment%201233135429644f8392737f7497d02fdd/Untitled%2066.png)
         
 #### **Test the deployed application**
+---
+  As mentioned in the previous section, the address to access the services is retrieved from the `Service type Load Balancer`.
   1. Using grpcurl
       ```bash
       grpcurl -plaintext -import-path Protos/ -proto greet.proto a63a498f42b164e2d913fcbdbfc79307-1261931033.ap-southeast-3.elb.amazonaws.com:8888 greet.Greeter/SayHelloWorld
