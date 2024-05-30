@@ -72,22 +72,16 @@
     
     ```protobuf
     syntax = "proto3";
-    
+
     option csharp_namespace = "GrpcHelloWorld";
-    
+    import "google/protobuf/empty.proto";
     package greet;
-    
+
     // The greeting service definition.
     service Greeter {
-      // Say Hello Worl
       rpc SayHelloWorld (google.protobuf.Empty) returns (HelloWorldReply);
     }
-    
-    // The request message containing the user's name.
-    message HelloWorldRequest {
-      string name = 1;
-    }
-    
+
     // The response message containing the greetings.
     message HelloWorldReply {
       string message = 1;
@@ -97,7 +91,7 @@
     - This file defines a gRPC service named greeter
     - The service has one unary method, `SayHelloWorld` , which doesn’t require any input parameters (**`google.protobuf.Empty`**) and returns a **`HelloWorldReply`**
     - One message type is defined, **`HelloWorldReply`**, which contains the hello world response.
-3. Service Implementation
+3. **Service Implementation**
     
     ```csharp
     using Google.Protobuf.WellKnownTypes;
@@ -412,7 +406,7 @@
         type: LoadBalancer
       ```
       
-      This service will route traffic to pods with label `app: backend` in the `development` namespace. Since the `type` is not specified, it defaults to `ClusterIP`, which exposes the service on a cluster-internal IP. The service has port `8888` exposed, allowing both internal and external access to the backend application through port 8888 without needing to know the individual pod IPs.
+      This service will create a load balancer that route traffic to pods with label `app: backend` in the `development` namespace. The service has port `8888` exposed, allowing both internal and external access to the backend application through port 8888 without needing to know the individual pod IPs.
       
   2. **Run `minikube tunnel`**
       
@@ -490,10 +484,11 @@
             targetPort: 8080
         type: ClusterIP
       ```
-      
+      The service type `ClusterIP` exposes the service on a cluster-internal IP.
       I deleted the old service and redeploy this servive.
       
       ![Untitled](AWS%20Deployment%201233135429644f8392737f7497d02fdd/Untitled%2018.png)
+      As we can see on the image above, unlike the service type `LoadBalancer`, this service doesn't have an external IP. That's where the `Ingress` will take part.
       
   2. `ingress.yaml`
       
@@ -518,7 +513,7 @@
                   port:
                     number: 8888
       ```
-      
+      The `Ingress` configuration routes the gRPC traffic coming to the root path (/) to the `backend-service` running on port 8888 using the Nginx Ingress Controller. 
   
   3. Enable ingress add-on on minikube by running the following command
       ```bash
