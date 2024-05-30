@@ -52,7 +52,7 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-
+This project implements a simple gRPC server that returns `"Hello, World!" `using `.NET`. The application is containerized using Docker and deployed locally using `Docker compose` and `Kubernetes` with `Minikube`. The application is also deployed on a remote Kubernetes cluster using `Amazon EKS` cluster. The full documentation of the solution implementation can be accessed [here](docs/documentation.md)
 <!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
 
 
@@ -68,6 +68,8 @@
 * [![.NET][.NET]][.NET-url] 
 * [![C#][C#]][C#-url]
 * [![Docker][Docker]][Docker-url]
+* [![Kubernetes][Kubernetes]][Kubernets-url]
+* [![AWS][AWS]][AWS-url]
 
 <p align="right">(<a href="#about-the-project">back to top</a>)</p>
 
@@ -80,6 +82,7 @@
 * Docker
 * Kubectl
 * Minikube
+* AWS CLI
 
 ### Clone the repo
   1. Run the following command
@@ -259,3 +262,9 @@ Use this space to list resources you find helpful and would like to give credit 
 [.NET-url]: https://learn.microsoft.com/en-us/dotnet/
 [Docker]: https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white
 [Docker-url]: https://www.docker.com/
+
+[Kubernetes]: https://img.shields.io/badge/kubernetes-%23326ce5.svg?style=for-the-badge&logo=kubernetes&logoColor=white
+[Kubernets-url]: https://kubernetes.io/
+
+[AWS]: https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white
+[AWS-url]: https://aws.amazon.com/
