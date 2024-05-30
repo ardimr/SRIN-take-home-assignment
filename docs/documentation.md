@@ -208,7 +208,7 @@
       ENTRYPOINT ["dotnet", "GrpcHelloWorld.dll"]
       ```
       
-      Multi-stage builds is implemented to minimize the image size and build an efficient docker image.
+      Multi-stage builds are used to create smaller and more efficient Docker images. This can be achieved by separating the build environment from the runtime environment. The build environment contains the required tools, resources, and dependencies to compile and build the application, while the runtime environment only contains the necessary components to run the application. The runtime environment is used as the final Docker image. This separation helps reducing the size of final image, as it doesn't inclue build tools.
       
   2. **Build the image**
       
@@ -416,8 +416,8 @@
       
   2. **Run `minikube tunnel`**
       
-      Before applying the service, it is required to run `minikube tunnel` command so that the service can be provided with an external IP. It’s required because `minikube` runs on a VM, which can’t be accessed directly using the `minikube IP`.
-      
+      Before applying the service, it is required to run `minikube tunnel` command. The `minikube tunnel` command is used to expose a service running within the `Minikube` environment to the host machine. Minikube, basically creates a a created virtual machine to host the cluster. Services running inside the virtual machine are not directly accessible from the host machine. The `minikub tunnel` command creates a network route that allow traffic from the host machine to reach the services running inside the Minikube envirnment. 
+
       ```bash
       minikube tunnel
       ```
@@ -441,6 +441,8 @@
       ```
       
       ![Untitled](AWS%20Deployment%201233135429644f8392737f7497d02fdd/Untitled%2015.png)
+
+      The service can be accessed through `127.0.0.1` address since the `minikube tunnel` is running.
       
   5. **Call the gRPC server**
       - using grpcurl
@@ -871,7 +873,7 @@ The steps to implement the architecture is described as follows:
     
 #### **Create Nodes**
 ---    
-  There are two options to create Nodes, using `Fargate` or `Managed Nodes` . I tried to use the Fargate but fails during the provisioning. Then, I proceed to use `EC2` instances as the `managed nodes` and it works as expected. The implementation steps is described as follows:
+  There are two options to create Nodes, using `Fargate` or `Managed Nodes` . I tried to use the Fargate but failed during the provisioning. Later, I realized that it was caused by network misconfiguration. The   `subnets` used by the `Fargate` don't have the internet access. The network misconfigration is just realized and solved when creating the `Node Group`. Hence, I decided to proceed to use `EC2` instances as the `managed nodes` since it alreadt works as expected. The implementation steps is described as follows:
   
   <details><summary>Using Fargate</summary>
 
@@ -931,7 +933,9 @@ The steps to implement the architecture is described as follows:
       
       ![Untitled](AWS%20Deployment%201233135429644f8392737f7497d02fdd/Untitled%2051.png)
   </details>
-  <details><summary>Using Managed Nodes</summary>      
+
+  <details><summary>Using Managed Nodes</summary>
+
   1. **Create a Node IAM Role**
       
       Create a Role and policies for the `node group` .
