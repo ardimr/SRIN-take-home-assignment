@@ -46,10 +46,10 @@
         <li><a href="#setup-aws-eks-cluster">Setup AWS EKS Cluster</a></li>
         <li><a href="#connect-to-the-cluster">Connect to the cluster</a></li>
         <li><a href="#create-nodes">Create Nodes</a></li>
-        <li><a href="#setup-alb">Setup ALB Ingress</a></li>
+        <li><a href="#setup-aws-load-balancers">Setup AWS Load Balancers</a></li>
         <li><a href="#deploy-application">Deploy Application</a></li>
         <li><a href="#list-resources">List Resources</a></li>
-        <li><a href="#test-the-deployed-application">Test the deployed application</a></li>
+        <li><a href="#access-the-deployed-application">Access the deployed application</a></li>
       </ul>
     </li>
 
@@ -239,7 +239,7 @@
       This command runs a new container named **`grpc-hello-world`** from the **`ardimr-hello-world:dev`** image. The container runs in the background with port `8080` exposed, allowing us to access the gRPC server through this port. Once the container stops, it will be automatically deleted.
       ![Untitled](AWS%20Deployment%201233135429644f8392737f7497d02fdd/Untitled%203.png)
       
-  2. **Test the application**
+  2. **Access the application**
       ```bash
       grpcurl -plaintext -import-path Protos/ -proto greet.proto localhost:8080 greet.Greeter/SayHelloWorld
       ```
@@ -267,7 +267,7 @@
       
       This Docker Compose configration defines a `grpc-server` service that runs a container named `grpc-hello-world` using the `ardimr/grpc-hello-world:dev` image. The container runs with the port `8080` exposed, enabling access to the gRPC server through this port. This service runs with a custom network named `grpc-hello-world-network` which uses the bridge driver. Since the container doesn’t require volume mounting, no volume is defined.
       
-  2. Run the service
+  2. **Run the service**
       
       ```bash
       docker-compose up -d
@@ -275,7 +275,7 @@
       
       ![Untitled](AWS%20Deployment%201233135429644f8392737f7497d02fdd/Untitled%205.png)
       
-  3. Test the application
+  3. **Access the application**
       
       ```bash
       grpcurl -plaintext -import-path Protos/ -proto greet.proto localhost:8080 greet.Greeter/SayHelloWorld
@@ -283,7 +283,7 @@
       
       ![Untitled](AWS%20Deployment%201233135429644f8392737f7497d02fdd/Untitled%206.png)
       
-  4. Stop the service
+  4. **Stop the service**
       
       ```bash
       docker-compose down
@@ -364,7 +364,7 @@
       
       ![Untitled](AWS%20Deployment%201233135429644f8392737f7497d02fdd/Untitled%2010.png)
       
-  3. List the running deployment
+  3. **List the running deployment**
       
       ```bash
       kubectl get deployment -n local
@@ -372,7 +372,7 @@
       
       ![Untitled](AWS%20Deployment%201233135429644f8392737f7497d02fdd/Untitled%2011.png)
       
-  4. List the pods
+  4. **List the pods**
       
       List the pods within the namespace `local`
       
@@ -543,7 +543,7 @@
       
       ![Untitled](AWS%20Deployment%201233135429644f8392737f7497d02fdd/Untitled%2020.png)
       
-  6. Send gRPC request
+  6. Access the application
       - Using grpcurl
           
           ```bash
@@ -577,6 +577,14 @@
 
 ### AWS
 ---
+
+**Requirements**
+- Create a new VPC
+- Create an EKS Cluster
+- Deploy application in EKS
+- List all the resources
+- Access the deployed application
+
 ![Untitled](AWS%20Deployment%201233135429644f8392737f7497d02fdd/Untitled%2024.png)
 
 The diagram above illustrates the architecture for deploying the gRPC server pods using `Amazon EKS` within a Virtual Private Cloud (VPC) in the `ap-southeast-3` region. Here’s the detailed components breakdown:
@@ -785,7 +793,7 @@ The steps to implement the architecture is described as follows:
 #### **Setup AWS EKS Cluster**
 ---
   1. **Create a cluster IAM role and attach the required Amazon EKS IAM managed policy to it.**
-      1. **Create a Role**
+      1. Create a Role
           
           ```bash
           aws iam create-role \
@@ -999,7 +1007,7 @@ The steps to implement the architecture is described as follows:
       ![Untitled](AWS%20Deployment%201233135429644f8392737f7497d02fdd/Untitled%2055.png)
   </details>       
 
-#### **Setup ALB**
+#### **Setup AWS Load Balancers**
 ---    
   In this setup, I tried to use `AWS Load Balancers` to subsitute the `ingress Nginx` to manage the traffic to the services.
   
@@ -1234,7 +1242,7 @@ The steps to implement the architecture is described as follows:
       
       ![Untitled](AWS%20Deployment%201233135429644f8392737f7497d02fdd/Untitled%2066.png)
         
-#### **Test the deployed application**
+#### **Access the deployed application**
 ---
   As mentioned in the previous section, the address to access the services is retrieved from the `Service type Load Balancer`.
   1. Using grpcurl
